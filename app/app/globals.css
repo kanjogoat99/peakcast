@@ -1,0 +1,122 @@
+:root{
+  --white: #ffffff;
+
+  /* Game palette */
+  --lapis: #2832C2;
+  --seafoam: #3DED97;
+  --gamboge: #e49b0f;
+
+  /* Media palette */
+  --blush: #BC544B;
+  --mauve: #7A4988;
+  --wine: #3F0112;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: #fff; overflow: hidden; }
+
+/* --- Split Layout --- */
+.splitRoot{
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* stack on small screens (optional, but feels good on phones) */
+@media (max-width: 800px){
+  .splitRoot{
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+/* --- Panels --- */
+.panel{
+  position: relative;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+}
+
+.panelInner{
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 24px;
+}
+
+.burstCanvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Game background: white + lapis + seafoam */
+.panelGame{
+  background:
+    radial-gradient(900px 600px at 20% 30%, rgba(61,237,151,0.55), rgba(61,237,151,0) 60%),
+    radial-gradient(900px 600px at 80% 70%, rgba(40,50,194,0.60), rgba(40,50,194,0) 62%),
+    linear-gradient(135deg, #ffffff 0%, rgba(40,50,194,0.20) 45%, rgba(61,237,151,0.18) 100%);
+}
+
+/* Media background: white + blush + mauve */
+.panelMedia{
+  background:
+    radial-gradient(900px 600px at 25% 70%, rgba(188,84,75,0.55), rgba(188,84,75,0) 60%),
+    radial-gradient(900px 600px at 75% 25%, rgba(122,73,136,0.55), rgba(122,73,136,0) 60%),
+    linear-gradient(135deg, #ffffff 0%, rgba(188,84,75,0.18) 45%, rgba(122,73,136,0.18) 100%);
+}
+
+/* Titles */
+.title{
+  margin: 0;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* Pixelated game font (we'll wire it in via layout.tsx) */
+.gameTitle{
+  font-family: var(--fontGame, ui-monospace), monospace;
+  font-size: clamp(42px, 7vw, 84px);
+  color: var(--gamboge);
+}
+
+/* Brush font (we'll wire it in via layout.tsx / font-face) */
+.mediaTitle{
+  font-family: var(--fontMedia, cursive);
+  font-size: clamp(46px, 7vw, 92px);
+  color: var(--wine);
+}
+
+.subtitle{
+  margin: 14px 0 0 0;
+  opacity: 0.85;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Glow */
+.titleGlow{
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.15),
+    0 0 18px rgba(255,255,255,0.20),
+    0 0 28px rgba(255,255,255,0.18);
+}
+
+/* When pressed: title turns white + slightly brighter glow */
+.panel.isPressed .gameTitle,
+.panel.isPressed .mediaTitle{
+  color: #ffffff;
+}
+.panel.isPressed .titleGlow{
+  text-shadow:
+    0 0 12px rgba(255,255,255,0.35),
+    0 0 22px rgba(255,255,255,0.35),
+    0 0 34px rgba(255,255,255,0.28);
+}
